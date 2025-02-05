@@ -9,7 +9,7 @@ class TollStation extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'city', 'seats'];
+    protected $fillable = ['name', 'city', 'collected'];
 
     public function tollInstances()
     {
