@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\TollInstance;
 use App\Models\TollStation;
@@ -9,21 +10,18 @@ use App\Models\Vehicle;
 
 class TollInstanceController extends Controller
 {
-    public function store($toll_station_id, $license_plate)
+    public function store(string $toll_station_id, string $vehicle_id)
     {
-        $vehicle = Vehicle::where('license_plate', $license_plate)->first();
+        $vehicle = Vehicle::findOrFail($vehicle_id);
         
         $vehicleType = $vehicle->vehicleType;
 
         $price = $vehicleType->price;
-        if (!is_null($vehicle->axle_number)) {
+        if ($vehicle->axle_number) {
             $price *= $vehicle->axle_number;
         }
 
-        $tollStation = TollStation::find($toll_station_id);
-        if (!$tollStation) {
-            return response()->json(['error' => 'Peaje no encontrado'], 404);
-        }
+        $tollStation = TollStation::findOrFail($toll_station_id);
 
         TollInstance::create([
             'vehicle_id' => $vehicle->id,
@@ -33,8 +31,10 @@ class TollInstanceController extends Controller
         $tollStation->increment('collected', $price);
 
         return response()->json([
+            'message' => 'Have a safe trip!',
+            'license_plate' => $vehicle->license_plate,
             'toll_station' => $tollStation->name,
-            'collected' => $tollStation->collected
+            'price_paid' => $price
         ], 201);
     }
 }
