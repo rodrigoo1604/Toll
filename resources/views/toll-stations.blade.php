@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-    <h1 class="text-center mb-4">Tolls</h1>
+    <h1 class="text-center mb-4">Toll Stations</h1>
     
     <div class="row">
         @foreach($tollStations as $tollStation)
