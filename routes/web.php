@@ -5,7 +5,7 @@ use App\Http\Controllers\VehicleController;
 use App\Http\Controllers\TollStationController;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('layouts/app');
 });
-Route::get('/toll-stations', [TollStationController::class, 'index']);
-Route::get('/vehicles', [VehicleController::class, 'index']);
+Route::get('/toll-stations', [TollStationController::class, 'index'])->name("toll-stations");
+Route::get('/vehicles', [VehicleController::class, 'index'])->name("vehicles");

@@ -10,6 +10,6 @@ class TollStationController extends Controller
     public function index()
     {
         $tollStations = TollStation::with(['tollInstances.vehicle.vehicleType'])->get();
-        return view('toll_stations', compact('tollStations'));
+        return view('toll-stations', compact('tollStations'));
     }
 }
